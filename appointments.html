@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hospital Management System - Appointments</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f5f8fa;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      background: #374785;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+    }
+    nav a {
+      color: #f0f0f0;
+      text-decoration: none;
+      margin-right: 1.8rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      color: #f9aa33;
+    }
+    nav a.active {
+      color: #f9aa33;
+      font-weight: 700;
+      border-bottom: 2px solid #f9aa33;
+    }
+    header {
+      background: #24305e;
+      color: white;
+      padding: 1.5rem 2rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    main {
+      flex-grow: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h2 {
+      color: #374785;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #555;
+    }
+    select, input[type="date"], input[type="time"] {
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 0.3rem;
+      transition: border-color 0.3s ease;
+    }
+    select:focus, input[type="date"]:focus, input[type="time"]:focus {
+      outline: none;
+      border-color: #374785;
+      box-shadow: 0 0 5px #a0a9db;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      background: #374785;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #2a3460;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    thead {
+      background: #374785;
+      color: white;
+    }
+    th, td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    tbody tr:hover {
+      background: #f0f4ff;
+      cursor: pointer;
+    }
+    .delete-btn {
+      background: #e74c3c;
+      border: none;
+      color: white;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .delete-btn:hover {
+      background: #b73729;
+    }
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      tr {
+        border: 1px solid #ccc;
+        margin-bottom: 0.75rem;
+        border-radius: 10px;
+        padding: 0.5rem;
+      }
+      td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      td::before {
+        position: absolute;
+        top: 0.5rem;
+        left: 1rem;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: 700;
+        color: #374785;
+      }
+      td:nth-of-type(1)::before { content: "Patient"; }
+      td:nth-of-type(2)::before { content: "Doctor"; }
+      td:nth-of-type(3)::before { content: "Date"; }
+      td:nth-of-type(4)::before { content: "Time"; }
+      td:nth-of-type(5)::before { content: "Actions"; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="appointments.html" class="active">Appointments</a>
+    <a href="patients.html">Patients</a>
+    <a href="doctors.html">Doctors</a>
+  </nav>
+  <header>
+    Manage Appointments
+  </header>
+  <main>
+    <h2>Book New Appointment</h2>
+    <form id="appointmentForm" novalidate autocomplete="off">
+      <label for="patientSelect">Patient:
+        <select id="patientSelect" required>
+          <option value="" disabled selected>Select Patient</option>
+        </select>
+      </label>
+      <label for="doctorSelect">Doctor:
+        <select id="doctorSelect" required>
+          <option value="" disabled selected>Select Doctor</option>
+        </select>
+      </label>
+      <label for="appointmentDate">Date:
+        <input type="date" id="appointmentDate" required min="" />
+      </label>
+      <label for="appointmentTime">Time:
+        <input type="time" id="appointmentTime" required min="08:00" max="18:00" />
+      </label>
+      <button type="submit">Book Appointment</button>
+    </form>
+    <h2>Appointment List</h2>
+    <table aria-label="Appointments List">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Doctor</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="appointmentsTableBody"></tbody>
+    </table>
+  </main>
+  <script>
+    // ... (keep existing CSS and HTML structure)
+
+// In appointments.html
+const appointmentForm = document.getElementById('appointmentForm');
+const appointmentsTableBody = document.getElementById('appointmentsTableBody');
+const patientSelect = document.getElementById('patientSelect');
+const doctorSelect = document.getElementById('doctorSelect');
+const appointmentDate = document.getElementById('appointmentDate');
+
+appointmentDate.min = new Date().toISOString().split('T')[0];
+
+let allPatients = []; // Store patients globally for easier lookup
+let allDoctors = [];  // Store doctors globally for easier lookup
+
+async function loadPatients() {
+    try {
+        const response = await fetch('http://localhost:3000/patients');
+        allPatients = await response.json(); // Store fetched patients
+
+        patientSelect.innerHTML = '<option value="" disabled selected>Select Patient</option>';
+        allPatients.forEach(p => {
+            const option = document.createElement('option');
+            option.value = p.id; // Use patient ID from backend
+            option.textContent = p.name;
+            patientSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading patients for dropdown:', error);
+        alert('Failed to load patients for appointment booking.');
+    }
+}
+
+async function loadDoctors() {
+    try {
+        const response = await fetch('http://localhost:3000/doctors');
+        allDoctors = await response.json(); // Store fetched doctors
+
+        doctorSelect.innerHTML = '<option value="" disabled selected>Select Doctor</option>';
+        allDoctors.forEach(d => {
+            const option = document.createElement('option');
+            option.value = d.id; // Use doctor ID from backend
+            option.textContent = d.name + ' (' + d.specialty + ')';
+            doctorSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading doctors for dropdown:', error);
+        alert('Failed to load doctors for appointment booking.');
+    }
+}
+
+async function loadAppointments() {
+    try {
+        const response = await fetch('http://localhost:3000/appointments');
+        const appointments = await response.json();
+
+        appointmentsTableBody.innerHTML = '';
+        if (appointments.length === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="5" style="text-align:center; color:#888;">No appointments found.</td>`;
+            appointmentsTableBody.appendChild(tr);
+            return;
+        }
+
+        appointments.forEach(appt => {
+            // Find patient and doctor by ID from the globally loaded lists
+            const patient = allPatients.find(p => p.id === appt.patientId);
+            const doctor = allDoctors.find(d => d.id === appt.doctorId);
+
+            const patientName = patient ? patient.name : 'N/A';
+            const doctorName = doctor ? `${doctor.name} (${doctor.specialty})` : 'N/A';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${patientName}</td>
+                <td>${doctorName}</td>
+                <td>${appt.date}</td>
+                <td>${appt.time}</td>
+                <td><button class="delete-btn" data-id="${appt.id}" aria-label="Delete appointment">Delete</button></td>
+            `;
+            appointmentsTableBody.appendChild(tr);
+        });
+    } catch (error) {
+        console.error('Error loading appointments:', error);
+        alert('Failed to load appointments.');
+    }
+}
+
+appointmentForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const patientId = patientSelect.value; // Get the ID
+    const doctorId = doctorSelect.value;   // Get the ID
+    const date = appointmentDate.value;
+    const time = document.getElementById('appointmentTime').value;
+
+    if (!patientId) {
+        alert('Please select a patient.');
+        return;
+    }
+    if (!doctorId) {
+        alert('Please select a doctor.');
+        return;
+    }
+    if (!date) {
+        alert('Please select an appointment date.');
+        return;
+    }
+    if (!time) {
+        alert('Please select an appointment time between 08:00 and 18:00.');
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:3000/appointments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ patientId, doctorId, date, time })
+        });
+
+        if (response.ok) {
+            const newAppointment = await response.json();
+            appointmentForm.reset();
+            appointmentDate.min = new Date().toISOString().split('T')[0];
+            loadAppointments();
+            alert('Appointment booked successfully!');
+        } else {
+            const errorData = await response.json();
+            alert('Failed to book appointment: ' + (errorData.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error booking appointment:', error);
+        alert('An error occurred while booking the appointment.');
+    }
+});
+
+appointmentsTableBody.addEventListener('click', async e => {
+    if (e.target.classList.contains('delete-btn')) {
+        const appointmentId = e.target.dataset.id;
+        if (confirm('Are you sure you want to delete this appointment?')) {
+            try {
+                const response = await fetch(`http://localhost:3000/appointments/${appointmentId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadAppointments();
+                } else {
+                    const errorData = await response.json();
+                    alert('Failed to delete appointment: ' + (errorData.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error deleting appointment:', error);
+                alert('An error occurred while deleting the appointment.');
+            }
+        }
+    }
+});
+
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadPatients(); // Ensure patients are loaded before appointments
+    await loadDoctors();  // Ensure doctors are loaded before appointments
+    loadAppointments();
+});
+  </script>
+</body>
+</html>
