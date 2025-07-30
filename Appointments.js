@@ -1,7 +1,7 @@
 
-    // ... (keep existing CSS and HTML structure)
 
-// In appointments.html
+
+
 const appointmentForm = document.getElementById('appointmentForm');
 const appointmentsTableBody = document.getElementById('appointmentsTableBody');
 const patientSelect = document.getElementById('patientSelect');
@@ -10,18 +10,18 @@ const appointmentDate = document.getElementById('appointmentDate');
 
 appointmentDate.min = new Date().toISOString().split('T')[0];
 
-let allPatients = []; // Store patients globally for easier lookup
-let allDoctors = [];  // Store doctors globally for easier lookup
+let allPatients = [];
+let allDoctors = [];  
 
 async function loadPatients() {
     try {
         const response = await fetch('http://localhost:3000/patients');
-        allPatients = await response.json(); // Store fetched patients
+        allPatients = await response.json(); 
 
         patientSelect.innerHTML = '<option value="" disabled selected>Select Patient</option>';
         allPatients.forEach(p => {
             const option = document.createElement('option');
-            option.value = p.id; // Use patient ID from backend
+            option.value = p.id; 
             option.textContent = p.name;
             patientSelect.appendChild(option);
         });
@@ -34,12 +34,12 @@ async function loadPatients() {
 async function loadDoctors() {
     try {
         const response = await fetch('http://localhost:3000/doctors');
-        allDoctors = await response.json(); // Store fetched doctors
+        allDoctors = await response.json(); 
 
         doctorSelect.innerHTML = '<option value="" disabled selected>Select Doctor</option>';
         allDoctors.forEach(d => {
             const option = document.createElement('option');
-            option.value = d.id; // Use doctor ID from backend
+            option.value = d.id; 
             option.textContent = d.name + ' (' + d.specialty + ')';
             doctorSelect.appendChild(option);
         });
@@ -63,7 +63,7 @@ async function loadAppointments() {
         }
 
         appointments.forEach(appt => {
-            // Find patient and doctor by ID from the globally loaded lists
+            
             const patient = allPatients.find(p => p.id === appt.patientId);
             const doctor = allDoctors.find(d => d.id === appt.doctorId);
 
@@ -88,8 +88,8 @@ async function loadAppointments() {
 
 appointmentForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const patientId = patientSelect.value; // Get the ID
-    const doctorId = doctorSelect.value;   // Get the ID
+    const patientId = patientSelect.value; 
+    const doctorId = doctorSelect.value;   
     const date = appointmentDate.value;
     const time = document.getElementById('appointmentTime').value;
 
@@ -159,8 +159,8 @@ appointmentsTableBody.addEventListener('click', async e => {
 });
 
 window.addEventListener('DOMContentLoaded', async () => {
-    await loadPatients(); // Ensure patients are loaded before appointments
-    await loadDoctors();  // Ensure doctors are loaded before appointments
+    await loadPatients(); 
+    await loadDoctors();  
     loadAppointments();
 });
  
