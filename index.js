@@ -1,7 +1,7 @@
 
-    // ... (keep existing CSS and HTML structure)
 
-// In index.html
+
+
 async function loadCounts() {
     try {
         const [appointmentsRes, patientsRes, doctorsRes] = await Promise.all([
