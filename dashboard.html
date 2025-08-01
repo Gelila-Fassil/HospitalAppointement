@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hospital Management System - Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f5f8fa;
+      color: #333;
+    }
+    nav {
+      background: #374785;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+    }
+    nav a {
+      color: #f0f0f0;
+      text-decoration: none;
+      margin-right: 1.8rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      color: #f9aa33;
+    }
+    nav a.active {
+      color: #f9aa33;
+      font-weight: 700;
+      border-bottom: 2px solid #f9aa33;
+    }
+    header {
+      background: #24305e;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 2.4rem;
+    }
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      text-align: center;
+      color: #374785;
+      transition: box-shadow 0.3s ease;
+      cursor: default;
+    }
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    .card h3 {
+      margin-top: 0;
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 0.7rem;
+    }
+    .card p {
+      font-size: 1.2rem;
+      color: #555;
+      margin: 0;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <li><a href="index.html">Home</a></li>
+                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="dashboard.html"  class="active">Dashboard</a></li>
+                <li><a href="appointments.html">Appointments</a></li>
+                <li><a href="patients.html">Patients</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+   
+  </nav>
+  <header>
+    <h1>Hospital Management System</h1>
+  </header>
+  <main>
+    <section class="cards" aria-label="Dashboard summary">
+      <article class="card" tabindex="0" aria-label="Total Appointments">
+        <h3>Total Appointments</h3>
+        <p id="appointmentsCount">Loading...</p>
+      </article>
+      <article class="card" tabindex="0" aria-label="Registered Patients">
+        <h3>Registered Patients</h3>
+        <p id="patientsCount">Loading...</p>
+      </article>
+      <article class="card" tabindex="0" aria-label="Doctors on Duty">
+        <h3>Doctors on Duty</h3>
+        <p id="doctorsCount">Loading...</p>
+      </article>
+    </section>
+  </main>
+  
+  <footer>
+    &copy; 2024 Hospital Management System
+  </footer>
+  <script>
+    // ... (keep existing CSS and HTML structure)
+
+// In index.html
+async function loadCounts() {
+    try {
+        const [appointmentsRes, patientsRes, doctorsRes] = await Promise.all([
+            fetch('http://localhost:3000/appointments'),
+            fetch('http://localhost:3000/patients'),
+            fetch('http://localhost:3000/doctors')
+        ]);
+
+        const appointments = await appointmentsRes.json();
+        const patients = await patientsRes.json();
+        const doctors = await doctorsRes.json();
+
+        document.getElementById('appointmentsCount').textContent = appointments.length;
+        document.getElementById('patientsCount').textContent = patients.length;
+        document.getElementById('doctorsCount').textContent = doctors.length;
+    } catch (error) {
+        console.error('Error loading counts:', error);
+        document.getElementById('appointmentsCount').textContent = 'Error';
+        document.getElementById('patientsCount').textContent = 'Error';
+        document.getElementById('doctorsCount').textContent = 'Error';
+    }
+}
+
+window.addEventListener('DOMContentLoaded', loadCounts);
+// Add a mechanism to refresh counts if data changes on other pages (e.g., polling or a more advanced event system)
+// For now, a simple page refresh will update the counts.
+  </script>
+</body>
+</html>
