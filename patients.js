@@ -1,7 +1,7 @@
 
       
 
-      // In patients.html
+      
       const patientForm = document.getElementById("patientForm");
       const patientsTableBody = document.getElementById("patientsTableBody");
 
