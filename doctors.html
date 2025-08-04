@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hospital Management System - Doctors</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f5f8fa;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      background: #374785;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+    }
+    nav a {
+      color: #f0f0f0;
+      text-decoration: none;
+      margin-right: 1.8rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      color: #f9aa33;
+    }
+    nav a.active {
+      color: #f9aa33;
+      font-weight: 700;
+      border-bottom: 2px solid #f9aa33;
+    }
+    header {
+      background: #24305e;
+      color: white;
+      padding: 1.5rem 2rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    main {
+      flex-grow: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h2 {
+      color: #374785;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #555;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 0.3rem;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: #374785;
+      box-shadow: 0 0 5px #a0a9db;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      background: #374785;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #2a3460;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    thead {
+      background: #374785;
+      color: white;
+    }
+    th, td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    tbody tr:hover {
+      background: #f0f4ff;
+      cursor: pointer;
+    }
+    .delete-btn {
+      background: #e74c3c;
+      border: none;
+      color: white;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .delete-btn:hover {
+      background: #b73729;
+    }
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      tr {
+        border: 1px solid #ccc;
+        margin-bottom: 0.75rem;
+        border-radius: 10px;
+        padding: 0.5rem;
+      }
+      td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      td::before {
+        position: absolute;
+        top: 0.5rem;
+        left: 1rem;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: 700;
+        color: #374785;
+      }
+      td:nth-of-type(1)::before { content: "Name"; }
+      td:nth-of-type(2)::before { content: "Specialty"; }
+      td:nth-of-type(3)::before { content: ""; } /* For the Actions column */
+    }
+    
+
+
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="appointments.html">Appointments</a>
+    <a href="patients.html">Patients</a>
+    <a href="doctors.html" class="active">Doctors</a>
+  </nav>
+  <header>
+    Manage Doctors
+  </header>
+  <main>
+    <h2>Add New Doctor</h2>
+    <form id="doctorForm" novalidate autocomplete="off">
+      <label for="doctorName">Name:
+        <input type="text" id="doctorName" required placeholder="Full name" />
+      </label>
+      <label for="doctorSpecialty">Specialty:
+        <select id="doctorSpecialty" required>
+          <option value="" disabled selected>Select Specialty</option>
+          <option>Cardiology</option>
+          <option>Dermatology</option>
+          <option>Neurology</option>
+          <option>Pediatrics</option>
+          <option>Orthopedics</option>
+          <option>General Surgery</option>
+        </select>
+      </label>
+      <button type="submit">Add Doctor</button>
+    </form>
+    <h2>Doctor List</h2>
+    <table aria-label="Doctors List">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Specialty</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="doctorsTableBody"></tbody>
+    </table>
+  </main>
+  <script>
+    // ... (keep existing CSS and HTML structure)
+
+// In doctors.html
+const doctorForm = document.getElementById('doctorForm');
+const doctorsTableBody = document.getElementById('doctorsTableBody');
+
+async function loadDoctors() {
+    try {
+        const response = await fetch('http://localhost:3000/doctors');
+        const doctors = await response.json();
+
+        doctorsTableBody.innerHTML = '';
+        if (doctors.length === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="3" style="text-align:center; color:#888;">No doctors found.</td>`;
+            doctorsTableBody.appendChild(tr);
+            return;
+        }
+        doctors.forEach(doctor => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${doctor.name}</td>
+                <td>${doctor.specialty}</td>
+                <td><button class="delete-btn" data-id="${doctor.id}" aria-label="Delete doctor">Delete</button></td>
+            `;
+            doctorsTableBody.appendChild(tr);
+        });
+    } catch (error) {
+        console.error('Error loading doctors:', error);
+        alert('Failed to load doctors.');
+    }
+}
+
+doctorForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = document.getElementById('doctorName').value.trim();
+    const specialty = document.getElementById('doctorSpecialty').value;
+
+    if (!name) {
+        alert('Please enter the doctor\'s name.');
+        return;
+    }
+    if (!specialty) {
+        alert('Please select a specialty.');
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:3000/doctors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, specialty })
+        });
+
+        if (response.ok) {
+            const newDoctor = await response.json();
+            doctorForm.reset();
+            loadDoctors();
+            alert('Doctor added successfully!');
+        } else {
+            const errorData = await response.json();
+            alert('Failed to add doctor: ' + (errorData.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error adding doctor:', error);
+        alert('An error occurred while adding the doctor.');
+    }
+});
+
+doctorsTableBody.addEventListener('click', async e => {
+    if (e.target.classList.contains('delete-btn')) {
+        const doctorId = e.target.dataset.id;
+        if (confirm('Are you sure you want to delete this doctor?')) {
+            try {
+                const response = await fetch(`http://localhost:3000/doctors/${doctorId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadDoctors();
+                } else {
+                    const errorData = await response.json();
+                    alert('Failed to delete doctor: ' + (errorData.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error deleting doctor:', error);
+                alert('An error occurred while deleting the doctor.');
+            }
+        }
+    }
+});
+
+window.addEventListener('DOMContentLoaded', loadDoctors);
+  </script>
+</body>
+</html>
